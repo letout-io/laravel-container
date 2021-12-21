@@ -34,7 +34,7 @@ RUN buildDeps=" \
         libmemcachedutil2 \
     " \
     && apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends $buildDeps $runtimeDeps \
-    && docker-php-ext-install bcmath bz2 calendar intl mbstring mysqli tokenizer xml zip opcache pdo pdo_mysql pdo_pgsql pgsql soap \
+    && docker-php-ext-install bcmath bz2 calendar intl mbstring mysqli tokenizer xml zip opcache pdo pdo_mysql pdo_pgsql pgsql soap pcntl \
     && docker-php-ext-configure gd --prefix=/usr --with-freetype --with-jpeg \
     && docker-php-ext-install gd \
     && docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/ \
