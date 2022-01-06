@@ -19,19 +19,19 @@ RUN buildDeps=" \
         libzip-dev \
         libyaml-dev \
         libcurl4-gnutls-dev \
+        libcap2-bin \
+        libmemcachedutil2 \
     " \
     runtimeDeps=" \
         curl \
         jq \
         ca-certificates \
-        git \
+        ssh-client \
         zip \
         unzip \
         git \
         supervisor \
         cron \
-        libcap2-bin \
-        libmemcachedutil2 \
     " \
     && apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends $buildDeps $runtimeDeps \
     && docker-php-ext-install bcmath bz2 calendar intl mbstring mysqli tokenizer xml zip opcache pdo pdo_mysql pdo_pgsql pgsql soap pcntl \
