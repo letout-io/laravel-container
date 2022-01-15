@@ -44,7 +44,7 @@ RUN buildDeps=" \
     && docker-php-ext-enable memcached redis yaml \
     && apt-get purge -y --auto-remove \
     && rm -r /var/lib/apt/lists/* \
-    && a2enmod rewrite
+    && a2enmod rewrite remoteip headers expires setenvif 
 
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
