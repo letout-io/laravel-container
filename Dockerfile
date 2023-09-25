@@ -1,4 +1,4 @@
-FROM php:8.0-apache
+FROM php:8.2-apache
 
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends apt-utils
 
@@ -34,11 +34,9 @@ RUN buildDeps=" \
         cron \
     " \
     && apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends $buildDeps $runtimeDeps \
-    && docker-php-ext-install bcmath bz2 calendar intl mbstring mysqli tokenizer xml zip opcache pdo pdo_mysql pdo_pgsql pgsql soap pcntl \
+    && docker-php-ext-install bcmath bz2 calendar intl mbstring mysqli xml zip opcache pdo pdo_mysql pdo_pgsql pgsql soap pcntl \
     && docker-php-ext-configure gd --prefix=/usr --with-freetype --with-jpeg \
     && docker-php-ext-install gd \
-    && docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/ \
-    && docker-php-ext-install ldap \
     && docker-php-ext-install exif \
     && pecl install memcached redis yaml \
     && docker-php-ext-enable memcached redis yaml \
