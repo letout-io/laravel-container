@@ -1,6 +1,10 @@
 FROM php:8.2-apache
 
-RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends apt-utils
+ENV NODE_MAJOR=20
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends apt-utils curl gnupg \
+    && curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg \
+    && echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE_MAJOR.x nodistro main" | tee /etc/apt/sources.list.d/nodesource.list \
+    && apt-get update
 
 # Install PHP extensions and PECL modules.
 RUN buildDeps=" \
@@ -24,6 +28,8 @@ RUN buildDeps=" \
     " \
     runtimeDeps=" \
         curl \
+        gnupg \
+        wget \
         jq \
         ca-certificates \
         ssh-client \
@@ -32,6 +38,7 @@ RUN buildDeps=" \
         git \
         supervisor \
         cron \
+        nodejs \
     " \
     && apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends $buildDeps $runtimeDeps \
     && docker-php-ext-install bcmath bz2 calendar intl mbstring mysqli xml zip opcache pdo pdo_mysql pdo_pgsql pgsql soap pcntl \
@@ -42,7 +49,7 @@ RUN buildDeps=" \
     && docker-php-ext-enable memcached redis yaml \
     && apt-get purge -y --auto-remove \
     && rm -r /var/lib/apt/lists/* \
-    && a2enmod rewrite remoteip headers expires setenvif 
+    && a2enmod rewrite remoteip headers expires setenvif
 
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
