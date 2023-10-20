@@ -41,7 +41,7 @@ RUN buildDeps=" \
         nodejs \
     " \
     && apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends $buildDeps $runtimeDeps \
-    && docker-php-ext-install bcmath bz2 calendar intl mbstring mysqli xml zip opcache pdo pdo_mysql pdo_pgsql pgsql soap pcntl \
+    && docker-php-ext-install bcmath bz2 calendar intl mbstring mysqli xml zip opcache pdo pdo_mysql pdo_pgsql pgsql soap pcntl sockets \
     && docker-php-ext-configure gd --prefix=/usr --with-freetype --with-jpeg \
     && docker-php-ext-install gd \
     && docker-php-ext-install exif \
