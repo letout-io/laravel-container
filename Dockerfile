@@ -46,7 +46,8 @@ RUN buildDeps=" \
     && docker-php-ext-install gd \
     && docker-php-ext-install exif \
     && pecl install memcached redis yaml \
-    && docker-php-ext-enable memcached redis yaml \
+    && pecl install --configureoptions 'enable-openssl="yes" enable-sockets="yes" enable-mysqlnd="yes" enable-swoole-curl="yes" ' swoole \
+    && docker-php-ext-enable memcached redis yaml swoole \
     && apt-get purge -y --auto-remove \
     && rm -r /var/lib/apt/lists/* \
     && a2enmod rewrite remoteip headers expires setenvif
